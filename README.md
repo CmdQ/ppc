@@ -1,3 +1,3 @@
-# Exercises from [ProgrammingPraxis.com](http://ProgrammingPraxis.com)
+# Exercises
 
-Some problems I tackled.
+Some problems from [ProgrammingPraxis.com](http://ProgrammingPraxis.com) that I wanted to tackle.
