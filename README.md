@@ -1,4 +1,3 @@
-ppc
-===
+# Exercises from [ProgrammingPraxis.com](http://ProgrammingPraxis.com)
 
-ProgrammingPraxis.com
+Some problems I tackled.
