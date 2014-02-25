@@ -76,9 +76,6 @@ _TeamCity*
 *.ncrunch*
 .*crunch*.local.xml
 
-# Installshield output folder
-[Ee]xpress/
-
 # DocProject is a documentation generator add-in
 DocProject/buildhelp/
 DocProject/Help/*.HxT
@@ -99,13 +96,6 @@ publish/
 # NuGet Packages Directory
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
 #packages/
-
-# Windows Azure Build Output
-csx
-*.build.csdef
-
-# Windows Store app package directory
-AppPackages/
 
 # Others
 sql/
