@@ -4,7 +4,7 @@ Some problems from [ProgrammingPraxis.com](http://ProgrammingPraxis.com) that I 
 
 ## Next
 
-
+[The Digits of Pi](http://programmingpraxis.com/2009/02/20/the-digits-of-pi/)
 
 ## Solved
 
@@ -21,3 +21,4 @@ Some problems from [ProgrammingPraxis.com](http://ProgrammingPraxis.com) that I 
 5. [Flavius Josephus](http://programmingpraxis.com/2009/02/19/flavius-josephus/)
     
     He survied in position 30.
+6. [A Self-Reproducing Program](http://programmingpraxis.com/2009/02/20/a-self-reproducing-program/)
