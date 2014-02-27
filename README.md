@@ -20,5 +20,5 @@ Some problems from [ProgrammingPraxis.com](http://ProgrammingPraxis.com) that I 
     It takes around 11 numbers for the first player to win.
 5. [Flavius Josephus](http://programmingpraxis.com/2009/02/19/flavius-josephus/)
     
-    He survied in position 30.
+    He survied in position 31 (Name 30 is the last, but we're 0-based).
 6. [A Self-Reproducing Program](http://programmingpraxis.com/2009/02/20/a-self-reproducing-program/)
