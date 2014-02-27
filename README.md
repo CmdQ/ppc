@@ -4,11 +4,20 @@ Some problems from [ProgrammingPraxis.com](http://ProgrammingPraxis.com) that I 
 
 ## Next
 
-[Flavius Josephus](http://programmingpraxis.com/2009/02/19/flavius-josephus/)
+
 
 ## Solved
 
 1. [Multiple Dwellings](http://programmingpraxis.com/2009/02/20/multiple-dwellings/)
+
+    From basement to roof: Smith, Cooper, Baker, Fletcher and Miller
 2. [RPN Calculator](http://programmingpraxis.com/2009/02/19/rpn-calculator/)
 3. [Sieve of Eratosthenes](http://programmingpraxis.com/2009/02/19/sieve-of-eratosthenes/)
+
+    Below 15485863 there are 1000000 primes.
 4. [Bingo](http://programmingpraxis.com/2009/02/19/bingo/)
+
+    It takes around 11 numbers for the first player to win.
+5. [Flavius Josephus](http://programmingpraxis.com/2009/02/19/flavius-josephus/)
+    
+    He survied in position 30.
