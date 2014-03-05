@@ -43,7 +43,9 @@ let spigot n =
                 loop n [q] (pre@acc)
     loop (n + 1) [] []
 
+#if COMPILED
 [<EntryPoint>]
+#endif
 let main _ =
     let text = "3.141592653589793238462643383279";
     let check =
@@ -57,3 +59,7 @@ let main _ =
         spigot i |> List.iter (printf "%d")
         printfn ""
     0
+
+#if INTERACTIVE
+main [||]
+#endif
