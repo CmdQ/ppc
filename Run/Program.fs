@@ -8,6 +8,7 @@ let spigot n =
     let m = float n * 10.0 / 3.0 |> ceil |> int
     let table = ref <| Array.init m (fun _ -> 2)
     let rec loop n (pre:byte list) (acc:byte list) =
+        let ret = loop -1 []
         if n < 0 then
             List.tail acc |> List.rev
         elif n = 0 then
@@ -19,7 +20,7 @@ let spigot n =
                     (plus1 l)::rest @ acc
                 | _ ->
                     pre@acc
-            loop -1 [] postprocessed
+            ret postprocessed
         else
             let table = !table
             for i = Array.length table - 1 downto 0 do
