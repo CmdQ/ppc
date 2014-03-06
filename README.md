@@ -24,4 +24,5 @@ Some problems from [ProgrammingPraxis.com](http://ProgrammingPraxis.com) that I 
 6. [A Self-Reproducing Program](http://programmingpraxis.com/2009/02/20/a-self-reproducing-program/)
 
 7. [The Digits of Pi](http://programmingpraxis.com/2009/02/20/the-digits-of-pi/)
+
     1000th digit of pi is 9.
