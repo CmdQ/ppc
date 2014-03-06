@@ -1,10 +1,23 @@
-﻿open System
+﻿#if COMPILED
+module Program
+#endif
 
-let fmod n d =
-    n / d, n % d
+open System
+
+/// <summary>
+/// Returns the quotient and the remainder of an integer division as a tuple.
+/// </summary>
+/// <param name="n">The numerator.</param>
+/// <param name="d">The denominator.</param>
+let fmod n d = n / d, n % d
+
+/// <summary>
+/// Increments a digit wrapping around from 9 to 0.
+/// </summary>
+let plus1 = (+)1uy >> (fun x -> x % 10uy)
 
 let spigot n =
-    let plus1 = (+)1uy >> (fun x -> x % 10uy)
+    if n = 1 then [3uy] else
     let m = float n * 10.0 / 3.0 |> ceil |> int
     let table = ref <| Array.init m (fun _ -> 2)
     let rec loop n (pre:byte list) (acc:byte list) =
@@ -13,12 +26,11 @@ let spigot n =
         elif n = 0 then
             let postprocessed =
                 match pre with
+                | [] -> acc
                 | 9uy::_ ->
                     List.map plus1 pre @ acc
                 | l::rest ->
                     (plus1 l)::rest @ acc
-                | _ ->
-                    pre@acc
             loop -1 [] postprocessed
         else
             let table = !table
@@ -43,7 +55,9 @@ let spigot n =
                 loop n [q] (pre@acc)
     loop (n + 1) [] []
 
+#if COMPILED
 [<EntryPoint>]
+#endif
 let main _ =
     let text = "3.141592653589793238462643383279";
     let check =
@@ -57,3 +71,7 @@ let main _ =
         spigot i |> List.iter (printf "%d")
         printfn ""
     0
+
+#if INTERACTIVE
+main fsi.CommandLineArgs
+#endif
