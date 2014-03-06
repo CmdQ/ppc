@@ -1,6 +1,11 @@
 ﻿open Microsoft.FSharp.Reflection
 
 module Array =
+    /// <summary>
+    /// Yields all permutations of a given array.
+    /// </summary>
+    /// <param name="array">The elements whose order shall be permuted.</param>
+    /// <remarks>Do not change the array during the iteration!</remarks>
     let permutations array =
         let n = Array.length array
         let swap i j =
