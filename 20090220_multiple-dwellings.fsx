@@ -1,5 +1,25 @@
 ﻿open Microsoft.FSharp.Reflection
 
+module Array =
+    let permutations array =
+        let n = Array.length array
+        let swap i j =
+            let temp = array.[i]
+            array.[i] <- array.[j]
+            array.[j] <- temp
+        let rec loop l =
+            seq {
+                if l + 1 >= n then
+                    yield array
+                else
+                    yield! loop (l + 1)
+                    for i = l + 1 to n - 1 do
+                        swap l i
+                        yield! loop (l + 1)
+                        swap l i
+            }
+        loop 0
+
 type Name =
     | Baker
     | Cooper
@@ -27,23 +47,7 @@ let moveIn () =
     let ns =
         FSharpType.GetUnionCases(typeof<Name>)
             |> Array.map (fun uci -> FSharpValue.MakeUnion(uci, null) :?> Name)
-    let n = Array.length ns
-    let swap i j =
-        let temp = ns.[i]
-        ns.[i] <- ns.[j]
-        ns.[j] <- temp
-    let rec enum l =
-        seq {
-            if l + 1 >= n then
-                yield ns
-            else
-                yield! enum (l + 1)
-                for i = l + 1 to n - 1 do
-                    swap l i
-                    yield! enum (l + 1)
-                    swap l i
-        }
-    enum 0
+    Array.permutations ns
         |> Seq.find valid
 
 moveIn()
