@@ -1,52 +1,69 @@
 ﻿#if COMPILED
 module Program
+#else
+#time;;
+#r ".\packages\FSPowerPack.Core.Community.3.0.0.0\Lib\Net40\FSharp.PowerPack.dll"
 #endif
 
 open System
+open Microsoft.FSharp.Collections
+
+let inline (^) elm func = LazyList.consDelayed elm func
 
 /// <summary>
-/// Streaming sequence of pi digits.
+/// Yields numbers that start with the square and advance in steps twice the original number.
 /// </summary>
-/// <remarks>
-/// Uses the Leibniz series <code>2+1/3*(2+2/5*(2+3/7*(...(2+i/(2*i+1(...))))))</code>
-/// </remarks>
-let leibniz =
-    let rec loop q r t k n l =
-        seq {
-            if 4I * q + r - t < n * t then
-                yield n |> byte
-                yield! loop (10I * q) (10I * (r - n * t)) t k ((10I * (3I * q + r)) / t - 10I * n) l
+/// <param name="n">The number whose square to start with.</param>
+/// <example>5 : 25, 35, 45, 55, ...</example>
+let strike n =
+    LazyList.unfold (fun (pos, step) ->
+            if pos <= Int32.MaxValue - step then
+                Some(pos, (pos + step, step))
             else
-                yield! loop (q * k) ((2I * q + r) * l) (t * l) (k + 1I) ((q * (7I * k + 2I) + r * l) / (t * l)) (l + 2I)
-        }
-    loop 1I 0I 1I 1I 3I 3I
+                None
+        ) (pown n 2, 2 * n)
+
+let last = ref (0, 0)
 
 /// <summary>
-/// Streaming sequence of pi digits.
+/// Yields elements from np that are not part of cp.
 /// </summary>
-/// <remarks>
-/// Uses the Gosper series <code>3+(1*1)/(3*4*5)*(8+(2*3)/(3*7*8)*(...(5*i-2+(i*(2*i-1))/(3*(3*i+1)*(3*i+2))*(...))))</code>
-/// </remarks>
-let gosper =
-    let rec loop (q, r, t, i) =
-        seq {
-            let u = 3I * (3I * i + 1I) * (3I * i + 2I)
-            let y = (q * (27I * i - 12I) + 5I * r) / (5I * t)
-            yield y |> byte
-            yield! loop(10I * q * i * (2I * i - 1I), 10I * u * (q * (5I * i - 2I) + r - y * t), t * u, i + 1I)
-        }
-    loop(1I, 180I, 60I, 2I)
+/// <param name="np">The ordered list to remove elements from.</param>
+/// <param name="cp">The ordered list of elements to remove.</param>
+let rec without np cp =
+    match np, cp with
+    | LazyList.Cons(p, npr), LazyList.Cons(c, cpr) ->
+        if p < c then
+            last := (p, c)
+            p ^ (fun () -> without npr cp)
+        elif p > c then
+            last := (p, c)
+            without np cpr
+        else
+            last := (p, c)
+            without npr cpr
+    | _ -> failwith "As both lists are theoretically infinite, we should never get here."
 
-let spigot = gosper
+let inline (--) a b = without a b
+
+let rec euler = function
+    | LazyList.Cons(p, ps) ->
+        let multiples = strike p
+        p ^ (fun () -> ps -- multiples |> euler)
+    | _ -> failwith "As the list is theoretically infinite, we should never get here."
+
+let primes =
+    /// <summary>
+    /// Yields 5, 7, 11, 13, 15, 18...
+    /// </summary>
+    let around6 = LazyList.unfold (fun (a, b, c) -> Some(a, (a + b, c, b))) (5, 2, 4)
+    LazyList.cons 2 (3 ^ (fun () -> euler around6))
 
 #if COMPILED
 [<EntryPoint>]
 #endif
 let main _ =
-    let text = "3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724587006606315588174881520920962829254091715364367892590360011330530548820466521384146951941511609433057270365759591953092186117381932611793105118548074462379962749567351885752724891227938183011949129833673362440656643086021394946395224737190702179860943702770539217176293176752384674818467669405132000568127145263560827785771342757789609173637178721468440901224953430146549585371050792279689258923542019956112129021960864034418159813629774771309960518707211349999998372978049951059731732816096318595024459455346908302642522308253344685035261931188171010003137838752886587533208381420617177669147303598253490428755468731159562863882353787593751957781857780532171226806613001927876611195909216420198938095257201065485863278865936153381".ToCharArray()
-    for c, b in spigot |> Seq.zip text do
-        assert(c = char b + '0')
-    printfn "1000th digit of pi is %d." <| Seq.nth 1000 spigot
+    let p = primes |> Seq.find ((<)100000)
     0
 
 #if INTERACTIVE
