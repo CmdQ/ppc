@@ -1,4 +1,4 @@
-﻿open System
+open System
 
 let fmod n d =
     n / d, n % d
